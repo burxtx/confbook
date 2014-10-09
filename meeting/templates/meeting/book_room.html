@@ -1,0 +1,67 @@
+{% extends "meeting/base.html" %}
+{% block header %}预定会议室{% endblock %}
+{% block body %}
+<form class="form-horizontal" method="post" role="form" action="">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="inputDate" class="col-sm-2 control-label">选择日期</label>
+        <div class="col-sm-10">
+            <input class="form-control" id="inputDate" name="date" type="date" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputDate" class="col-sm-2 control-label">会议时间</label>
+        <div class="col-sm-10">
+            <input class="form-control" id="inputTime" name="time" type="radio" value="上午"/>
+        </div>
+        <div class="col-sm-10">
+            <input class="form-control" id="inputTime" name="time" type="radio" value="下午"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputRoom" class="col-sm-2 control-label">会议室</label>
+        <div class="col-sm-10">
+            <select class="form-control" id="inputRoom" name="room"/>
+                {% if meetingrooms %}
+                    {% for meetingroom in meetingrooms %}
+                        <option>{{ meetingroom }}</option>
+                    {% endfor %}
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputDept" class="col-sm-2 control-label">主办单位</label>
+        <div class="col-sm-10">
+            <input class="form-control" id="inputDept" name="dept" type="text" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputVip" class="col-sm-2 control-label">出席领导</label>
+        <div class="col-sm-10">
+            <input class="form-control" id="inputVip" name="vip" type="text" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputName" class="col-sm-2 control-label">联系人</label>
+        <div class="col-sm-10">
+            <input class="form-control" id="inputName" name="name" type="text" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPhone" class="col-sm-2 control-label">联系电话</label>
+        <div class="col-sm-10">
+            <input class="form-control" id="inputPhone" name="phone" type="text" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button name="submit_pending" value="submit" type="submit" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span> 提交</button>
+            <button name="cancel" value="save as draft" type="submit" class="btn btn-warning">
+                <span class="glyphicon glyphicon-remove"></span> 取消</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
