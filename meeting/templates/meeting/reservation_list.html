@@ -1,0 +1,35 @@
+{% extends "meeting/base.html" %}
+
+{% block header %}会议室管理{% endblock %}
+{% block body %}
+<script src="{{ STATIC_URL }}blog/js/delete.js"></script>
+
+<ul class="opts list-inline">
+    {% if meetingrooms %}
+        {% for meetingroom in meetingrooms %}
+        <!-- <ul class="opts list-inline"> -->
+            <li>
+              <div class="meetingroom">
+                  <h2 class="meetingroom-name"><a href="/meetingrooms/{{ meetingroom.name }}">{{ meetingroom.name }}</a></h2>
+                  <div class="meetingroom-meta" />
+              </div>
+            </li>
+          <!-- <ul class="opts list-inline"> -->
+            <li>
+                <a id="{{ meetingroom.id }}" href="javascript:void(0)" class="post tool delete">
+                <span class="glyphicon glyphicon-minus"></span></a>
+            </li>
+        {% endfor %}
+    {% else %}
+        <li>
+            <div class="meetingroom">
+                <h2 class="meetingroom-name">系统中没有会议室！</h2>
+            </div>
+        <li>
+    {% endif %}
+    <li>
+        <a id="{{ meetingroom.id }}" href="javascript:void(0)" class="post tool add">
+        <span class="glyphicon glyphicon-plus"></span></a>
+    </li>
+</ul>
+{% endblock %}
