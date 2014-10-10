@@ -1,6 +1,7 @@
 {% extends "meeting/base.html" %}
 
 {% block header %}已排会议{% endblock %}
+
 {% block body %}
 <form class="form-inline" method="get" role="form" action="">
     <div class="form-group">
@@ -18,8 +19,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <a href="{% url 'meeting:list_available_room' %}?date=2014-10-10&time_slot=0" value="submit" role="button" class="btn btn-success">
-                预定</a>
+            <a href="{% url 'meeting:list_available_room' %}?date=2014-10-10&time_slot=0" value="submit" role="button" class="btn btn-success">预定</a>
         </div>
     </div>
 </form>

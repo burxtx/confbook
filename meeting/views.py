@@ -26,7 +26,7 @@ def _save_reservation(request):
     rsv.contact = person
     rsv.room = meetingroom
     rsv.book_date = request.POST['date']
-    rsv.book_time = request.POST['time']
+    rsv.book_time = request.POST['time_slot']
     rsv.vip = request.POST['vip']
     rsv.count = request.POST['count']
     rsv.status = Reservation.PENDING_STATUS
@@ -35,21 +35,20 @@ def _save_reservation(request):
 
 def new_reservation(request):
     # post booking request
+    if request.is_ajax():
+        pass
     if request.method == 'POST':
-        if "submit_pending" in request.POST:
-        # validate forms firstly
-        # create a booking request
-            rsv = _save_reservation(request)
+        rsv = _save_reservation(request)
         return render_to_response('meeting/submit_success.html', variables)
     # open the booking request page
-    else:
+    if request.method == 'GET':
         date = request.GET.get('date')
         time_slot = request.GET.get('time_slot')
         variables = RequestContext(request, {
-            'meetingrooms': date,
-            'time': time,
+            'date': date,
+            'time_slot': time_slot,
             })
-    return render_to_response('meeting/book_new_room.html', variables)
+        return render_to_response('meeting/book_new_room.html', variables)
 
 
 #---------- pending following functions-------------
