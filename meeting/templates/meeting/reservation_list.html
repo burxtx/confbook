@@ -1,35 +1,34 @@
-{% extends "meeting/base.html" %}
-
-{% block header %}会议室管理{% endblock %}
-{% block body %}
-<script src="{{ STATIC_URL }}blog/js/delete.js"></script>
-
-<ul class="opts list-inline">
-    {% if meetingrooms %}
-        {% for meetingroom in meetingrooms %}
+<div class="pannel-group">
+    {% if rsvs %}
+        {% for rsv in rsvs %}
         <!-- <ul class="opts list-inline"> -->
-            <li>
-              <div class="meetingroom">
-                  <h2 class="meetingroom-name"><a href="/meetingrooms/{{ meetingroom.name }}">{{ meetingroom.name }}</a></h2>
-                  <div class="meetingroom-meta" />
-              </div>
-            </li>
-          <!-- <ul class="opts list-inline"> -->
-            <li>
-                <a id="{{ meetingroom.id }}" href="javascript:void(0)" class="post tool delete">
-                <span class="glyphicon glyphicon-minus"></span></a>
-            </li>
+            <div class="pannel pannel-default">
+                <div class="pannel-heading">
+                    <ul class="list-inline">
+                        <h4 class="pannel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#">
+                                <li>{{ rsv.room.name }}</li>
+                            </a>
+                        </h4>
+                    </ul>
+                </div>
+                <div id="" class="pannel-collapse collapse in">
+                    <div class="pannel-body">
+                        <ul class="list-group">
+                            <li>
+                                <ul class="list-inline">
+                                    <li>{{ rsv.vip }}</li>
+                                    <li>{{ rsv.count }}</li>
+                                </ul>
+                            </li>
+                            <li>{{ rsv.contact.name }}</li>
+                            <li>{{ rsv.contact.phone }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     {% else %}
-        <li>
-            <div class="meetingroom">
-                <h2 class="meetingroom-name">系统中没有会议室！</h2>
-            </div>
-        <li>
+        <h4 class="meetingroom-name">没有会议！</h4>
     {% endif %}
-    <li>
-        <a id="{{ meetingroom.id }}" href="javascript:void(0)" class="post tool add">
-        <span class="glyphicon glyphicon-plus"></span></a>
-    </li>
-</ul>
-{% endblock %}
+</div>

@@ -5,10 +5,11 @@ from django.conf.urls.static import static
 from django.views.generic import FormView
 
 urlpatterns = patterns('meeting.views',
-    url(r'^(?P<year>\d[4])/(?P<month>\d[2])/(?P<day>\d[2])/(?P<status>\w[.+])$', 'filter_rooms', name="filter_rooms"),
-    url(r'^booking/$', 'book_meetingroom', name="book_meetingroom"),
-    url(r'^(.+)/detail$', 'room_detail', name="room_detail"),
-    url(r'^review$', 'review_submits', name="review_submits"),
+    url(r'^reservation/(.+)$', 'room_detail', name="room_detail"),
+    url(r'^agree$', 'list_agreed_reservation', name="list_agreed_reservation"),
+    url(r'^review$', 'review_pending_reservation', name="review_pending_reservation"),
+    url(r'^available_list$', 'list_available_room', name="list_available_room"),
+    url(r'^booking/new$', 'new_reservation', name="new_reservation"),
     # url(r'^all$', 'list_meetingrooms', name="list_meetingrooms"),
     # url(r'^add$', 'add_meetingroom', name="add_meetingroom"),
     # url(r'^delete$', 'delete_meetingroom', name="delete_meetingroom"),

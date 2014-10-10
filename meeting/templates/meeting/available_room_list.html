@@ -1,0 +1,40 @@
+{% extends "meeting/base.html" %}
+
+{% block header %}可预订的会议室{% endblock %}
+{% block body %}
+<form class="form-inline" method="get" role="form" action="">
+    <div class="form-group">
+        <div class="col-sm-9">
+            <input class="form-control" id="input_date" name="date" type="date" />
+        </div>
+    </div>
+    <div class="form-group">
+        <select class="form-control" id="input_time_slot" name="time_slot" onchange="location.href='?get'"/>
+            <option>上午</option>
+            <option>下午</option>
+        </select>
+    </div>
+    <!--available room list -->
+    <ul class="list-group">
+        {% if meetingrooms %}
+            {% for meetingroom in meetingrooms %}
+                <li class="list-group-item">
+                    <ul class="list-inline">
+                        <li>
+                            <h2 class="meetingroom-name">{{ meetingroom.name }}</h2>
+                        </li>
+                        {% if show_control %}
+                            <li>
+                                <a href="{% url 'meeting:new_reservation' %}" role="button" class="btn btn-danger"> 预定</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+            </ul>
+            {% endfor %}
+        {% else %}
+            <h2 class="meetingroom-name">系统中没有会议室！</h2>
+        {% endif %}
+    </ul>
+</form>
+{% endblock %}

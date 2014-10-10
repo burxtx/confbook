@@ -34,10 +34,11 @@ class Reservation(models.Model):
         )
     contact = models.OneToOneField(Contact)
     room = models.OneToOneField(MeetingRoom)
-    book_date = models.DateTimeField()
+    book_date = models.DateField()
     book_time = models.IntegerField(choices=TIME_CHOICE, default=AM)
     subscribe_time = models.DateTimeField(auto_now_add=True)
     vip = models.CharField(max_length=256)
-    status = models.IntegerField(choices=STATUS_CHOICE, default=AGREE_STATUS)
+    count = models.IntegerField(max_length=3)
+    status = models.IntegerField(choices=STATUS_CHOICE)
     def __unicode__(self):
         return '%s, %s' % (self.contact.name, self.room.name)
