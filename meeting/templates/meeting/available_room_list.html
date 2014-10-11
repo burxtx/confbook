@@ -1,40 +1,44 @@
 {% extends "meeting/base.html" %}
 
+{% block page_external %}
+    <script src="{{ STATIC_URL }}meeting/js/ajax.js"></script>
+    <script src="{{ STATIC_URL }}meeting/js/onParamsChange.js"></script>
+{% endblock %}
 {% block header %}可预订的会议室{% endblock %}
 {% block body %}
-<form class="form-inline" method="get" role="form" action="">
-    <div class="row">
-        <div class="col-xs-9">
-            <input class="form-control" id="input_date" name="date" type="date" />
+    <form class="form-inline" method="get" role="form" action="">
+        <div class="row">
+            <div class="col-xs-9">
+                <input class="form-control" id="input_date" name="date" type="date" />
+            </div>
+            <div class="col-xs-3">
+                <select class="form-control" id="input_time_slot" name="time_slot" />
+                    <option value='0'>上午</option>
+                    <option value='1'>下午</option>
+                </select>
+            </div>
         </div>
-        <div class="col-xs-3">
-            <select class="form-control" id="input_time_slot" name="time_slot" onchange="location.href='?get'"/>
-                <option>上午</option>
-                <option>下午</option>
-            </select>
-        </div>
-    </div>
     <!--available room list -->
-    <ul class="list-group">
         {% if meetingrooms %}
+        <div class="highlight meetingrool_list">
             {% for meetingroom in meetingrooms %}
-                <li class="list-group-item">
-                    <ul class="list-inline">
-                        <li>
-                            <h2>{{ meetingroom.name }}</h2>
-                        </li>
-                        {% if show_control %}
-                            <li>
-                                <a href="{% url 'meeting:new_reservation' %}?date=2014-10-11&time_slot=1" role="button" class="btn btn-danger btn-book">预定</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </li>
-            </ul>
+                <div class="row">
+                    <!-- <li class="list-group-item"> -->
+                    <div id="{{ meetingroom.id }}" class="col-xs-9 mid">
+                        <h2>{{ meetingroom.name }}</h2>
+                    </div>
+                    <div class="col-xs-3">
+                        <!-- <a class="book_meeting" onclick="redir('{{mid}}')" href="{% url 'meeting:new_reservation' %}?mid={{meetingroom}}&date={{request.GET.date}}&lote={{request.GET.lote}}" role="button" 
+                        class="btn btn-warning btn-book" type="submit">预定</a> -->
+
+                        <a class="book_meeting" onclick="" href="{% url 'meeting:new_reservation' %}?mid={{meetingroom}}&date={{request.GET.date}}" role="button" 
+                        class="btn btn-warning btn-book" type="submit">预定</a>
+                    </div>
+                </div>
             {% endfor %}
+        </div>
         {% else %}
-            <h2>系统中没有会议室！</h2>
+            <h2>没有可预订的会议室！</h2>
         {% endif %}
-    </ul>
-</form>
+    </form>
 {% endblock %}

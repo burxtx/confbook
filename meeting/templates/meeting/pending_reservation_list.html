@@ -2,4 +2,41 @@
 
 {% block header %}待处理的预定请求{% endblock %}
 {% block body %}
+<ul class="list-group">
+    {% if rsvs %}
+        {% for rsv in rsvs %}
+        <ul class="list-inline">
+            <li>
+                <div class="pannel pannel-default">
+                    <div class="pannel-heading">
+                        <ul class="list-inline">
+                            <li>{{ rsv.room.name }}</li>
+                            <li>{{ rsv.subscribe_time }}</li>
+                        </ul>
+                    </div>
+                    <div class="pannel-body">
+                        <ul class="list-group">
+                            <li>
+                                <ul class="list-inline">
+                                    <li>{{ rsv.vip }}</li>
+                                    <li>{{ rsv.count }}</li>
+                                </ul>
+                            </li>
+                            <li>{{ rsv.contact.name }}</li>
+                            <li>{{ rsv.contact.phone }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+          <!-- control group -->
+            <li>
+                <a href="{% url 'meeting:review' %}" role="button">审批
+                </a>
+            </li>
+        </ul>
+        {% endfor %}
+    {% else %}
+        <p>没有会议！</p>
+    {% endif %}
+</ul>
 {% endblock %}

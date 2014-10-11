@@ -25,8 +25,8 @@ class Reservation(models.Model):
         (PM, 'PM'),
         )
     DENY_STATUS = 0
-    AGREE_STATUS = 1
-    PENDING_STATUS = 2
+    PENDING_STATUS = 1
+    AGREE_STATUS = 2
     STATUS_CHOICE = (
         (AGREE_STATUS, 'Agree'),
         (DENY_STATUS, 'Deny'),
