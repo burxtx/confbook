@@ -99,15 +99,20 @@ def new_reservation(request):
     
 # I am common user, I want to view someday's rooms
 def list_agreed_reservation(request):
-    date = request.GET.get('date')
     # I am common user I want to view someday's meetings
-    if request.method=='GET':
-        rsvs = Reservation.objects.filter(
-            status=Reservation.AGREE_STATUS,
-            book_date=date)
-        variables = RequestContext(request, {
-            'rsvs': rsvs,
-            })
+    if 'date' in request.GET:
+        date = request.GET.get('date')
+    else:
+        date = datetime.date.today
+    rsvs = Reservation.objects.filter(
+        status=Reservation.AGREE_STATUS,
+        book_date=date)
+    variables = RequestContext(request, {
+        'rsvs': rsvs,
+        })
+    if request.GET.has_key('ajax'):
+        return render_to_response('meeting/reservation_list.html', variables)
+    else:
         return render_to_response('meeting/agreed_reservation_list.html', variables)
 
 # I am admin I want to view booking requests list
@@ -127,18 +132,22 @@ def list_available_room(request):
     if 'date' in request.GET and 'time_slot' in request.GET:
         date = request.GET.get('date')
         time_slot = request.GET.get('time_slot')
-        meetingrooms = MeetingRoom.objects.exclude(
-            reservation__status=Reservation.AGREE_STATUS).filter(
-            reservation__book_date=date, reservation__book_time=time_slot)
     else:
-        #display current date
-        meetingrooms = MeetingRoom.objects.exclude(
-            reservation__status=Reservation.AGREE_STATUS).filter(
-            reservation__book_date=date, reservation__book_time=time_slot)
+        date = datetime.date.today
+        time_slot = 0
+    meetingrooms = MeetingRoom.objects.exclude(
+        reservation__status=Reservation.AGREE_STATUS,
+        reservation__book_date=date, reservation__book_time=time_slot)
+        # meetingrooms = MeetingRoom.objects.exclude(
+        #     reservation__status=Reservation.AGREE_STATUS).filter(
+        #     reservation__book_date=date, reservation__book_time=time_slot)
     variables = RequestContext(request, {
         'meetingrooms': meetingrooms,
         })
-    return render_to_response('meeting/available_room_list.html', variables)
+    if request.GET.has_key('ajax'):
+        return render_to_response('meeting/room_list.html', variables)
+    else:
+        return render_to_response('meeting/available_room_list.html', variables)
 
 # I am common user, I want to view a reservation detail
 def reservation_detail(request, id):

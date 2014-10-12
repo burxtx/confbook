@@ -1,23 +1,32 @@
-
-<ul class="list-group">
-    {% if meetingrooms %}
-        {% for meetingroom in meetingrooms %}
-        
+<div class="meetingrooms_list">
+{% if meetingrooms %}
+    {% for meetingroom in meetingrooms %}
+    <ul class="list-group">
+        <!-- <div class="row"> -->
             <li class="list-group-item">
-                <ul class="list-inline">
-                    <li>
-                        <h2 class="meetingroom-name">{{ meetingroom.name }}</h2>
-                    </li>
-                    {% if show_control %}
-                        <li>
-                            <a href="{% url meeting:new_reservation %}" role="button" class="btn btn-danger"> 预定</a>
-                        </li>
-                    {% endif %}
-                </ul>
+                <!-- <div id="{{ meetingroom.id }}" class="col-xs-9 mid"> -->
+                    <h3 id="{{ meetingroom.id }}" class="mid">{{ meetingroom.name }}</h3>
+                <!-- </div> -->
+                <!-- <div class="col-xs-3"> -->
+                    <button class="book_meeting" action="{% url 'meeting:new_reservation' %}"
+                    class="btn btn-warning btn-book" type="submit" onclick="get_book_form()">预定</button>
+                    <script type="text/javascript">
+                        function get_book_form () {
+                            var meetingroom = $(".mid").text();
+                            var mid = $(".mid").attr("id");
+                            var date = $("#input_date").val();
+                            var time_slot = $("#input_time_slot").val();
+                            var url = $("button").attr("action");
+                            var params = "?date=" + date + "&time_slot=" + time_slot + "&mid=" + mid + "&meetingroom=" + meetingroom;
+                            window.location.href = url + params;
+                        }
+                    </script>
+                <!-- </div> -->
             </li>
-        </ul>
-        {% endfor %}
-    {% else %}
-        <h2 class="meetingroom-name">系统中没有会议室！</h2>
-    {% endif %}
-</ul>
+        <!-- </div> -->
+    </ul>
+    {% endfor %}
+</div>
+{% else %}
+    <h2>没有可预订的会议室！</h2>
+{% endif %}

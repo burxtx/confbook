@@ -1,37 +1,80 @@
-<div class="pannel-group">
-    {% if rsvs %}
-        {% for rsv in rsvs %}
-        <!-- <ul class="opts list-inline"> -->
-            <div class="pannel pannel-default">
-                <div class="pannel-heading">
-                    <ul class="list-inline">
-                        <h4 class="pannel-title">
-                            <a data-toggle="collapse" data-parent="#accordion" href="#">
-                                <li>
-                                    <a href="{% url 'meeting:reservation_detail' rsv.id %}" value="submit" class="btn btn-success">
-                                        {{ rsv.room.name }}</a>
-                                </li>
-                            </a>
-                        </h4>
-                    </ul>
-                </div>
-                <div id="" class="pannel-collapse collapse in">
-                    <div class="pannel-body">
-                        <ul class="list-group">
-                            <li>
-                                <ul class="list-inline">
-                                    <li>{{ rsv.vip }}</li>
-                                    <li>{{ rsv.count }}</li>
+<div class="pannel-group reservation_list">
+    <div class="bs-callout bs-callout-info">
+        {% if rsvs %}
+            <h4>上午已订：</h4>
+            {% for rsv in rsvs %}
+                {% if rsv.book_time == 0 %}
+                    <div class="pannel pannel-default">
+                        <div class="pannel-heading">
+                            <ul class="list-inline">
+                                <h4 class="pannel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#">
+                                        <li>
+                                            <a href="{% url 'meeting:reservation_detail' rsv.id %}" value="submit" class="btn btn-success">
+                                                {{ rsv.room.name }}</a>
+                                        </li>
+                                    </a>
+                                </h4>
+                            </ul>
+                        </div>
+                        <div id="" class="pannel-collapse collapse in">
+                            <div class="pannel-body">
+                                <ul class="list-group">
+                                    <li>
+                                        <ul class="list-inline">
+                                            <li>{{ rsv.vip }}</li>
+                                            <li>{{ rsv.count }}</li>
+                                        </ul>
+                                    </li>
+                                    <li>{{ rsv.contact.name }}</li>
+                                    <li>{{ rsv.contact.phone }}</li>
                                 </ul>
-                            </li>
-                            <li>{{ rsv.contact.name }}</li>
-                            <li>{{ rsv.contact.phone }}</li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}
-    {% else %}
-        <p class="meetingroom-name">没有会议！</p>
-    {% endif %}
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="meetingroom-name">上午没有会议！</p>
+        {% endif %}
+    </div>
+    <div class="bs-callout bs-callout-warning">
+        {% if rsvs %}
+            <h4>下午已订：</h4>
+            {% for rsv in rsvs %}
+                {% if rsv.book_time == 0 %}
+                    <div class="pannel pannel-default">
+                        <div class="pannel-heading">
+                            <ul class="list-inline">
+                                <h4 class="pannel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#">
+                                        <li>
+                                            <a href="{% url 'meeting:reservation_detail' rsv.id %}" value="submit" class="btn btn-success">
+                                                {{ rsv.room.name }}</a>
+                                        </li>
+                                    </a>
+                                </h4>
+                            </ul>
+                        </div>
+                        <div id="" class="pannel-collapse collapse in">
+                            <div class="pannel-body">
+                                <ul class="list-group">
+                                    <li>
+                                        <ul class="list-inline">
+                                            <li>{{ rsv.vip }}</li>
+                                            <li>{{ rsv.count }}</li>
+                                        </ul>
+                                    </li>
+                                    <li>{{ rsv.contact.name }}</li>
+                                    <li>{{ rsv.contact.phone }}</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p class="meetingroom-name">下午没有会议！</p>
+        {% endif %}
+    </div>
 </div>

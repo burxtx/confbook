@@ -6,21 +6,25 @@
 <form class="form-inline" method="get" role="form" action="">
     <div class="form-group">
         <div class="col-sm-9">
-            <input class="form-control" id="input_date" name="date" type="date" onchange="location.href='?'"/>
-        </div>
-    </div>
-    <div class="bs-callout bs-callout-info">
-        <h4>上午已订：</h4>
-        {% include "meeting/reservation_list.html" %}
-    </div>
-    <div class="bs-callout bs-callout-warning">
-        <h4>下午已订：</h4>
-        {% include "meeting/reservation_list.html" %}
-    </div>
-    <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <a href="{% url 'meeting:list_available_room' %}?date=2014-10-10&time_slot=0" value="submit" role="button" class="btn btn-success">预定</a>
+            <input class="form-control" id="input_date" name="date" type="date" onchange="onDateTimeChange()" />
+            <script type="text/javascript">
+                var date = new Date();
+                // $("#input_date").val(date);
+                $("#input_date").val(date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate());
+                function onDateTimeChange () {
+                    var date = $("#input_date").val();
+                    var params = "?ajax&date=" + date;
+                    $(".reservation_list").load(
+                        document.URL + params
+                    );
+                    return false;}
+            </script>
         </div>
     </div>
 </form>
+{% include "meeting/reservation_list.html" %}
+<div class="col-sm-offset-2 col-sm-10">
+    <a href="{% url 'meeting:list_available_room' %}" value="submit" role="button" class="btn btn-success list_room">预定</a>
+    <!-- <a href="{% url 'meeting:list_available_room' %}?date=2014-10-10&time_slot=0" value="submit" role="button" class="btn btn-success">预定</a> -->
+</div>
 {% endblock %}

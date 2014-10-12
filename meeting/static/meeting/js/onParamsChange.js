@@ -3,7 +3,7 @@ function onDateTimeChange () {
     var time_slot = $("#input_time_slot").val();
     var params = "?date=" + date + "&time_slot=" + time_slot;
     $(".meetingrooms_list").load(
-        document.URL + params
+        document.URL + encodeURIComponent(params)
     );
 }
 
