@@ -1,5 +1,4 @@
 {% extends "meeting/base.html" %}
-
 {% block header %}待处理的预定请求{% endblock %}
 {% block body %}
 <ul class="list-group">
@@ -10,8 +9,12 @@
                 <div class="pannel pannel-default">
                     <div class="pannel-heading">
                         <ul class="list-inline">
-                            <li>{{ rsv.room.name }}</li>
-                            <li>{{ rsv.subscribe_time }}</li>
+                            <li>
+                                <div class="room">{{ rsv.room.name }}</div>
+                            </li>
+                            <li>
+                                <div class="datetime">{{ rsv.subscribe_time }}</div>
+                            </li>
                         </ul>
                     </div>
                     <div class="pannel-body">
@@ -30,9 +33,9 @@
             </li>
           <!-- control group -->
             <li>
-                <a href="{% url 'meeting:review' %}" role="button">审批
-                </a>
+                <a href="{% url 'meeting:review_pending_reservation' rsv.id %}" role="button">审批
             </li>
+            </a>
         </ul>
         {% endfor %}
     {% else %}

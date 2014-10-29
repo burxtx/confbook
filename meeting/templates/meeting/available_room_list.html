@@ -27,6 +27,11 @@
             </div>
         </div>    
     </form>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <a name="back" href="{% url 'meeting:list_agreed_reservation' %}">返回</a>
+        </div>
+    </div>
     <!--available room list -->
 {% include "meeting/room_list.html" %}
 {% endblock %}

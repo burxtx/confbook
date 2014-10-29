@@ -9,24 +9,14 @@
                 <!-- </div> -->
                 <!-- <div class="col-xs-3"> -->
                     <button class="book_meeting" action="{% url 'meeting:new_reservation' %}"
-                    class="btn btn-warning btn-book" type="submit" onclick="get_book_form()">预定</button>
-                    <script type="text/javascript">
-                        function get_book_form () {
-                            var meetingroom = $(".mid").text();
-                            var mid = $(".mid").attr("id");
-                            var date = $("#input_date").val();
-                            var time_slot = $("#input_time_slot").val();
-                            var url = $("button").attr("action");
-                            var params = "?date=" + date + "&time_slot=" + time_slot + "&mid=" + mid + "&meetingroom=" + meetingroom;
-                            window.location.href = url + params;
-                        }
-                    </script>
+                    class="btn btn-warning btn-book" type="submit">预定</button>
                 <!-- </div> -->
             </li>
         <!-- </div> -->
     </ul>
     {% endfor %}
 </div>
+<script src="{{ STATIC_URL }}meeting/js/ajax.js"></script>
 {% else %}
     <h2>没有可预订的会议室！</h2>
 {% endif %}

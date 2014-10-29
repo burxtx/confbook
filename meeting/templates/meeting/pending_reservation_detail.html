@@ -3,37 +3,35 @@
 {% block body %}
 <ul class="list-group">
     <li class="list-group-item">
-        <ul>
-            <li>
-                {{ time_slot }}
-            </li>
-            <li>
-                {{ date }}
-            </li>
-        </ul>
+        <div class="room">{{ reservation.room.name }}</div>
     </li>
     <li class="list-group-item">
-        {{ vip }}
+        <div class="date">{{ reservation.book_date|date:'Y-m-d' }}</div>
     </li>
     <li class="list-group-item">
-        {{ count }}
+        <div class="time_slot">{{ reservation.book_time }}</div>
     </li>
     <li class="list-group-item">
-        {{ dept }}
+        <div class="vip">{{ reservation.vip }}</div>
     </li>
     <li class="list-group-item">
-        {{ name }}
+        <div class="count">{{ reservation.count }}</div>
     </li>
     <li class="list-group-item">
-        {{ phone }}
+        <div class="dept">{{ reservation.contact.dept }}</div>
+    </li>
+    <li class="list-group-item">
+        <div class="contact">{{ reservation.contact.name }}</div>
+    </li>
+    <li class="list-group-item">
+        <div class="phone">{{ reservation.contact.phone }}</div>
     </li>
 </ul>
 <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-            <button id="submit_pending" value="submit" type="submit" class="btn btn-success">
-                提交</button>
-            <button name="cancel" value="save as draft" type="submit" class="btn btn-warning">
-                取消</button>
-        </div>
+    <div class="col-sm-offset-2 col-sm-10">
+        <button value="submit" type="submit" id="{{reservation.id}}" name="agree" action="{% url 'meeting:review_pending_reservation_list' %}" class="confirm post tool">确认预定</button>
+        <a id="{{rsv.id}}" name="delete" href="{% url 'meeting:delete_reservation' reservation.id %}" class="post tool delete">拒绝预定</a>
     </div>
+</div>
+<script src="{{ STATIC_URL }}meeting/js/ajax.js"></script>
 {% endblock %}

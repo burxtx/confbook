@@ -3,7 +3,14 @@ from django.db import models
 
 # Create your models here.
 class MeetingRoom(models.Model):
+    AVAILABLE = 0
+    OCCUPIED = 1
+    STATUS_CHOICE = (
+        (AVAILABLE, 'Available'),
+        (OCCUPIED, 'Occupied'),
+        )
     name = models.CharField(max_length=128)
+    # status = models.IntegerField(choices=STATUS_CHOICE, default=AVAILABLE)
     #floor = models.CharField(max_length=128)
     #capacity = models.IntegerField(default=0)
     
@@ -32,8 +39,8 @@ class Reservation(models.Model):
         (DENY_STATUS, 'Deny'),
         (PENDING_STATUS, 'Pending'),
         )
-    contact = models.OneToOneField(Contact)
-    room = models.OneToOneField(MeetingRoom)
+    contact = models.ForeignKey(Contact)
+    room = models.ForeignKey(MeetingRoom)
     book_date = models.DateField()
     book_time = models.IntegerField(choices=TIME_CHOICE, default=AM)
     subscribe_time = models.DateTimeField(auto_now_add=True)

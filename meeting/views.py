@@ -15,13 +15,15 @@ import pdb
 # pdb.set_trace()
 # I am common user, I want to book a meeting room
 def _save_reservation(request):
-    meetingroom = MeetingRoom.objects.get(name=request.POST['room'])
+    meetingroom = MeetingRoom.objects.get(name=request.POST['meetingroom'])
     person, created = Contact.objects.get_or_create(phone=request.POST['phone'])
     if created:
         person.name = request.POST['name']
         person.phone = request.POST['phone']
         person.dept = request.POST['dept']
-    person.save()
+        person.save()
+    # rsv, c = Reservation.objects.get_or_create(pk=id)
+    # if c:
     rsv = Reservation()
     rsv.contact = person
     rsv.room = meetingroom
@@ -30,19 +32,18 @@ def _save_reservation(request):
     rsv.vip = request.POST['vip']
     rsv.count = request.POST['count']
     rsv.status = Reservation.PENDING_STATUS
+    # if not c:
+    #     rsv.status = status
     rsv.save()
     return rsv
 
-def new_reservation(request):
-    # post booking request
-    if request.is_ajax():
-        pass
+def new_reservation(request):   
     if request.method == 'POST':
         rsv = _save_reservation(request)
-        return render_to_response('meeting/submit_success.html', variables)
-    # open the booking request page
-    # if request.method == 'GET':
+        return HttpResponseRedirect('/meetingrooms/agreed_list')
+    # request approved using ajax post
 
+        
     if request.method == 'GET':
         meetingroom_id = request.GET.get('mid')
         meetingroom_name = request.GET.get('meetingroom')
@@ -56,7 +57,6 @@ def new_reservation(request):
             'request': request,
             })
         return render_to_response('meeting/book_new_room.html', variables)
-
 
 #---------- pending following functions-------------
 # # I am admin, I want to add new meeting rooms
@@ -117,15 +117,36 @@ def list_agreed_reservation(request):
 
 # I am admin I want to view booking requests list
 def review_pending_reservation_list(request):
-    date = request.GET.get('date')
+    # date = request.GET.get('date')
+    # print request.GET
+    if request.POST:
+        # print request.POST
+        # print request.GET
+        id = request.POST["id"]
+        rsv, c = Reservation.objects.get_or_create(pk=id)
+    # if c:
+    #     rsv.contact = person
+    #     rsv.room = meetingroom
+    #     rsv.book_date = request.POST['date']
+    #     rsv.book_time = request.POST['time_slot']
+    #     rsv.vip = request.POST['vip']
+    #     rsv.count = request.POST['count']
+    #     rsv.status = Reservation.PENDING_STATUS
+        if not c:
+            rsv.status = Reservation.AGREE_STATUS
+        rsv.save()
+        return HttpResponseRedirect('/meetingrooms/pending_list')
+
     if request.method=='GET':
         rsvs = Reservation.objects.filter(
-            status=Reservation.PENDING_STATUS,
-            book_date=date).order_by('-subscribe_time')
+            status=Reservation.PENDING_STATUS).order_by('-subscribe_time')
+            # book_date=date).order_by('-subscribe_time')
         variables = RequestContext(request, {
             'rsvs': rsvs,
             })
         return render_to_response('meeting/pending_reservation_list.html', variables)
+
+    
 
 # I am common user I want to book someday's meeting room
 def list_available_room(request):
@@ -135,12 +156,12 @@ def list_available_room(request):
     else:
         date = datetime.date.today
         time_slot = 0
-    meetingrooms = MeetingRoom.objects.exclude(
-        reservation__status=Reservation.AGREE_STATUS,
-        reservation__book_date=date, reservation__book_time=time_slot)
-        # meetingrooms = MeetingRoom.objects.exclude(
-        #     reservation__status=Reservation.AGREE_STATUS).filter(
-        #     reservation__book_date=date, reservation__book_time=time_slot)
+
+    meetingrooms = MeetingRoom.objects.filter(
+        reservation__book_date=date, reservation__book_time=time_slot).exclude(
+        reservation__status=Reservation.AGREE_STATUS).distinct()
+    # bug: 需要列出从来没有预定过的会议室
+
     variables = RequestContext(request, {
         'meetingrooms': meetingrooms,
         })
@@ -153,28 +174,26 @@ def list_available_room(request):
 def reservation_detail(request, id):
     reservation = get_object_or_404(Reservation, pk=id)
     variables = RequestContext(request, {
-        'name': reservation.contact.name,
-        'phone': reservation.contact.phone,
-        'dept': reservation.contact.dept,
-        'book_date': reservation.date,
-        'book_time': reservation.time_slot,
-        'vip': reservation.vip,
-        'count': reservation.count,
-        'status': reservation.status,
+        'reservation': reservation
         })
     return render_to_response('meeting/reservation_detail.html', variables)
 
 # I am admin, I want to check a reservation request
 def review_pending_reservation(request, id):
+
+
     reservation = get_object_or_404(Reservation, pk=id)
     variables = RequestContext(request, {
-        'name': reservation.contact.name,
-        'phone': reservation.contact.phone,
-        'dept': reservation.contact.dept,
-        'book_date': reservation.date,
-        'book_time': reservation.time_slot,
-        'vip': reservation.vip,
-        'count': reservation.count,
-        'status': reservation.status,
+        'reservation': reservation
         })
     return render_to_response('meeting/pending_reservation_detail.html', variables)
+
+def delete_reservation(request, id=None):
+    rsv = get_object_or_404(Reservation, pk=id)
+    rsv.delete()
+    results={'success': True}
+    json = simplejson.dumps(results)
+    if request.is_ajax():
+        return HttpResponse(json, mimetype='application/json')
+    else:
+        return HttpResponseRedirect('/meetingrooms/pending_list')
