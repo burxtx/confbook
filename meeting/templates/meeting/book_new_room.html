@@ -42,15 +42,15 @@
     <div class="form-group">
         <label for="inputPhone" class="col-sm-2 control-label">联系电话</label>
         <div class="col-sm-10">
-            <input class="form-control" id="inputPhone" name="phone" type="text" />
+            <input class="form-control" id="phone" name="phone" type="text" />
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-            <button id="submit_pending" action="{% url 'meeting:new_reservation' %}" value="submit" type="submit" class="btn btn-success">
+            <button id="submit_pending" action="{% url 'meeting:new_reservation' %}" value="submit" type="submit" class="btn btn-success" onclick="checkLength()">
                 提交</button>
-            <button name="cancel" value="save as draft" type="submit" class="btn btn-warning">
-                取消</button>
+            <a href="{% url 'meeting:list_available_room' %}" name="cancel" value="save as draft" class="btn btn-warning">
+                取消</a>
         </div>
     </div>
 </form>
@@ -66,6 +66,7 @@
     $("form").append(addMeetingRoom);
     $("form").append(addDate);
     $("form").append(addTimeSlot);
+    
 </script>
 {% endblock %}
 

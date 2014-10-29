@@ -3,12 +3,12 @@ from django.db import models
 
 # Create your models here.
 class MeetingRoom(models.Model):
-    AVAILABLE = 0
-    OCCUPIED = 1
-    STATUS_CHOICE = (
-        (AVAILABLE, 'Available'),
-        (OCCUPIED, 'Occupied'),
-        )
+    # AVAILABLE = 0
+    # OCCUPIED = 1
+    # STATUS_CHOICE = (
+    #     (AVAILABLE, 'Available'),
+    #     (OCCUPIED, 'Occupied'),
+    #     )
     name = models.CharField(max_length=128)
     # status = models.IntegerField(choices=STATUS_CHOICE, default=AVAILABLE)
     #floor = models.CharField(max_length=128)
@@ -31,12 +31,12 @@ class Reservation(models.Model):
         (AM, 'AM'),
         (PM, 'PM'),
         )
-    DENY_STATUS = 0
+    AVAILABLE_STATUS = 0
     PENDING_STATUS = 1
     AGREE_STATUS = 2
     STATUS_CHOICE = (
         (AGREE_STATUS, 'Agree'),
-        (DENY_STATUS, 'Deny'),
+        (AVAILABLE_STATUS, 'Available'),
         (PENDING_STATUS, 'Pending'),
         )
     contact = models.ForeignKey(Contact)
@@ -46,6 +46,6 @@ class Reservation(models.Model):
     subscribe_time = models.DateTimeField(auto_now_add=True)
     vip = models.CharField(max_length=256)
     count = models.IntegerField(max_length=3)
-    status = models.IntegerField(choices=STATUS_CHOICE)
+    status = models.IntegerField(choices=STATUS_CHOICE, default=AVAILABLE_STATUS)
     def __unicode__(self):
         return '%s, %s' % (self.contact.name, self.room.name)

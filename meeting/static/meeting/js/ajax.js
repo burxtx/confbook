@@ -40,32 +40,7 @@ $(document).ready(function(){
         var params = "?date=" + date + "&time_slot=" + time_slot + "&mid=" + mid + "&meetingroom=" + meetingroom;
         location.href = $(".book_meeting").attr("action")+params;
     });
-
-    // $(".confirm").click(function(){
-    //     var room = $(".room").text();
-    //     var date = $(".date").text();
-    //     var time = parseInt($(".time_slot").text());
-    //     var vip = $(".vip").text();
-    //     var count = parseInt($(".count").text());
-    //     var dept = $(".dept").text();
-    //     var phone = parseInt($(".phone").text());
-    //     var url = $(".confirm").attr('action');
-    //     var data = {
-    //         'book_date': date,
-    //         'book_time': time,
-    //         'room': room,
-    //         'vip': vip,
-    //         'count': count,
-    //         'dept': dept,
-    //         'phone': phone,
-    //         'status': 2,
-    //         'csrfmiddlewaretoken':csrftoken
-    //         };
-    //     $.post(url, data,
-    //         function(){
-    //             window.location.assign(url)
-    //     });
-    // });
+    
     // $(".confirm").click(function(){
     //     // var room = $(".room").text();
     //     // var date = $(".date").text();
@@ -92,33 +67,16 @@ $(document).ready(function(){
     //         function(){
     //             window.location.assign(url)
     //     });
-    // });    
-    $(".confirm").click(function(){
-        // var room = $(".room").text();
-        // var date = $(".date").text();
-        // var time = parseInt($(".time_slot").text());
-        // var vip = $(".vip").text();
-        // var count = parseInt($(".count").text());
-        // var dept = $(".dept").text();
-        // var phone = parseInt($(".phone").text());
-        var id = $(".confirm").attr('id');
-        var url = $(".confirm").attr('action');
-        var data = {
-            // 'book_date': date,
-            // 'book_time': time,
-            // 'room': room,
-            // 'vip': vip,
-            // 'count': count,
-            // 'dept': dept,
-            // 'phone': phone,
-            'id': id,
-            'status': 2,
-            'csrfmiddlewaretoken':csrftoken
-            };
-        $.post(url, data,
-            function(){
-                window.location.assign(url)
-        });
-    });    
+    // });
+    // $.fn.checkRequired=function(inputArg){
+    //     if (inputArg.required) {
+    //         if($(this).is("input") || $(this).is("textarea")){
+    //             $(this).bind("focus", function(){
+    //                 if(inputArg.onFocus!=undefined)
+
+    //             })
+    //         })
+    //     }
+    // }
 });
 
