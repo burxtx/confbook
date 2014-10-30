@@ -5,8 +5,6 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
-    # url(r'^$', 'confbook.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
     url(r'^meetingrooms/', include('meeting.urls', namespace='meeting')),
     url(r'^admin/', include(admin.site.urls)),
 )
